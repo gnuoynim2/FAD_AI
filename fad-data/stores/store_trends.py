@@ -29,6 +29,7 @@
 """
 
 import argparse
+import os
 import re
 import sys
 from pathlib import Path
@@ -44,8 +45,11 @@ HERE = Path(__file__).resolve().parent
 OUT = HERE / "output"
 TREND = HERE.parent / "trend"
 
+_win_font = Path(os.environ.get("WINDIR", r"C:\Windows")) / "Fonts" / "malgun.ttf"   # 윈도우 맑은 고딕을 직접 등록
+if _win_font.exists():
+    font_manager.fontManager.addfont(str(_win_font))
 _have = {f.name for f in font_manager.fontManager.ttflist}
-plt.rcParams["font.family"] = [f for f in ["Malgun Gothic", "AppleGothic", "NanumGothic", "Noto Sans CJK KR", "Noto Sans KR"]
+plt.rcParams["font.family"] = [f for f in ["Malgun Gothic", "AppleGothic", "NanumGothic", "Noto Sans CJK KR"]
                                if f in _have] + ["DejaVu Sans"]
 plt.rcParams["axes.unicode_minus"] = False
 

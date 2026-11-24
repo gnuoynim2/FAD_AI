@@ -26,6 +26,7 @@ collect_trend.py 결과(output/trend_weekly.csv)를 읽어, 키워드마다 곡�
 """
 
 import argparse
+import os
 import re
 from pathlib import Path
 
@@ -40,8 +41,11 @@ OUT = HERE / "output"
 
 # 한글 글꼴: 윈도우(맑은 고딕), 맥, 리눅스(나눔·Noto) 중 있는 것 사용
 from matplotlib import font_manager
+_win_font = Path(os.environ.get("WINDIR", r"C:\Windows")) / "Fonts" / "malgun.ttf"   # 윈도우 맑은 고딕을 직접 등록
+if _win_font.exists():
+    font_manager.fontManager.addfont(str(_win_font))
 _have = {f.name for f in font_manager.fontManager.ttflist}
-plt.rcParams["font.family"] = [f for f in ["Malgun Gothic", "AppleGothic", "NanumGothic", "Noto Sans CJK KR", "Noto Sans KR"]
+plt.rcParams["font.family"] = [f for f in ["Malgun Gothic", "AppleGothic", "NanumGothic", "Noto Sans CJK KR"]
                                if f in _have] + ["DejaVu Sans"]
 plt.rcParams["axes.unicode_minus"] = False
 COLORS = {"fad": "#d1495b", "trend": "#2e6b3a", "seasonal": "#2f5da8", "ongoing": "#e07a2e",
